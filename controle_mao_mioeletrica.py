@@ -2,10 +2,10 @@ from pyfirmata2 import Arduino, SERVO
 import time
 
 # Porta do Arduino
-porta = '/dev/cu.usbserial-130'   # ajusta se mudar
+porta = '/dev/cu.usbserial-130'   # ajusta se mudar (porque sempre muda depois de desconectar)
 
-# Parâmetros
-amostragem_ms   = 100       # ~20 Hz
+# parâmetros (esses valores podem ser modificados ou ajustados conformes os testes foram demonstrando necessidade)
+amostragem_ms   = 100       
 intervalo_loop  = 0.05
 limiar_bruto    = 0.70     # limiar no sinal EMG bruto (0 a 1)
 repeticoes      = 8       # leituras consecutivas acima do limiar para disparar
@@ -25,7 +25,7 @@ dedo3 = 8
 dedo4 = 7
 dedo5 = 6
 
-# Configuração dos SERVO com estrutura de loop
+# Configuração dos servos com estrutura de loop
 for p in (dedo1, dedo2, dedo3, dedo4, dedo5):
     placa.digital[p].mode = SERVO
 
@@ -52,7 +52,7 @@ def abrir_mao():
     mover_servo(dedo5, 0)
     time.sleep(0.3)
 
-# Um log para acompanhar o processor e corrigir erros durante execução
+# Um log para acompanhar o processo e corrigir erros durante execução
 def log_acao(acao, valor, contagem, t, t_ult):
     horario = time.strftime("%H:%M:%S", time.localtime(t))
     print(
@@ -79,7 +79,7 @@ estado_mao = "ABERTA"
 ultimo_comando = 0.0
 contador = 0
 
-print("Lendo EMG em A0... (observe EMG:xxx no terminal)")
+print("Lendo EMG em A0...")
 
 while True:
     valor = emg_valor[0]   # valor vindo do callback
